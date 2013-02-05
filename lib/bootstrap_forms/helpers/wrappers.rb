@@ -135,6 +135,15 @@ module BootstrapForms
           else
             element = :span
             tag_options[:class] = 'help-inline'
+            puts "#{value.class}"
+            if value.class == Hash
+              options = value
+              value = options[:text] || ''
+              options.delete(:text)
+              tag_options[:class] << ' ' << options[:class] unless options[:class].nil?
+              options.delete(:class)
+              tag_options.merge!(options)
+            end
           end
           content_tag(element, value, tag_options, escape)
         end

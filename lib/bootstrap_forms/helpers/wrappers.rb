@@ -68,10 +68,10 @@ module BootstrapForms
           label_options = {}
           label_options[:class] = 'control-label' unless @field_options[:control_group] == false
           if respond_to?(:object)
-             label(@name, block_given? ? block : @field_options[:label], label_options)
-           else
-             label_tag(@name, block_given? ? block : @field_options[:label], label_options)
-           end
+            label(@name, block_given? ? block : @field_options[:label], label_options)
+          else
+            label_tag(@name, block_given? ? block : @field_options[:label], label_options)
+          end
         end
       end
 

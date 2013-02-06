@@ -135,7 +135,6 @@ module BootstrapForms
           else
             element = :span
             tag_options[:class] = 'help-inline'
-            puts "#{value.class}"
             if value.class == Hash
               options = value
               value = options[:text] || ''

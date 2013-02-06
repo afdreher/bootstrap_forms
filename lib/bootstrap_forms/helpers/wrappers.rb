@@ -102,6 +102,15 @@ module BootstrapForms
         end
       end
 
+      def value_and_options_from_hash(tag_options = {}, options = {})
+        tag_opt = tag_options.dup
+        value = options[:text] || ''
+        options.delete(:text)
+        tag_opt[:class] = "#{tag_opt[:class]} #{options[:class]}" unless options[:class].nil?
+        options.delete(:class)
+        tag_opt.merge!(options)
+        return [value, tag_opt]
+      end
 
       %w(help_inline error success warning help_block append append_button prepend).each do |method_name|
         define_method(method_name) do |*args|
@@ -113,6 +122,7 @@ module BootstrapForms
           when 'help_block'
             element = :span
             tag_options[:class] = 'help-block'
+            value, tag_options = value_and_options_from_hash(tag_options, value) if value.class == Hash 
           when 'append', 'prepend'
             element = :span
             tag_options[:class] = 'add-on'
@@ -135,14 +145,7 @@ module BootstrapForms
           else
             element = :span
             tag_options[:class] = 'help-inline'
-            if value.class == Hash
-              options = value
-              value = options[:text] || ''
-              options.delete(:text)
-              tag_options[:class] << ' ' << options[:class] unless options[:class].nil?
-              options.delete(:class)
-              tag_options.merge!(options)
-            end
+            value, tag_options = value_and_options_from_hash(tag_options, value) if value.class == Hash 
           end
           content_tag(element, value, tag_options, escape)
         end
